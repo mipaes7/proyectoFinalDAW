@@ -1,4 +1,4 @@
-const manga = require('../models/manga.model');
+const manga = require('../models/mangas.models');
 
 const getAllMangasController = async (req, res) => {
     try {

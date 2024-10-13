@@ -1,4 +1,4 @@
-const library = require('../models/library.model');
+const library = require('../models/library.models');
 
 const readLibrariesController = async (req, res) => {
     let libraries;
