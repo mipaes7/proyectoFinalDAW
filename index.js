@@ -16,7 +16,7 @@ app.use(morgan(':method :url :status - :response-time ms :body'));
 
 // Importar Rutas API
 const usersRoutes = require('./routes/users.routes');
-const mangasRoutes = require('./routes/manga.routes');
+const mangasRoutes = require('./routes/mangas.routes');
 const libraryRoutes = require('./routes/library.routes');
 
 app.use(cors({
