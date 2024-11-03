@@ -7,13 +7,13 @@ router.get('/', mangaController.getAllMangasController);
 // POST http://localhost:3000/api/mangas
 router.post('/', mangaController.createMangaController);
 
-// GET http://localhost:3000/api/mangas?author=norio
+// GET http://localhost:3000/api/mangas/author/norio
 router.get('/author/:author', mangaController.getMangaByAuthorController);
 
-// GET http://localhost:3000/api/mangas?genre=ecchi
+// GET http://localhost:3000/api/mangas/genre/ecchi
 router.get('/genre/:genre', mangaController.getMangaByGenreController);
 
-// GET http://localhost:3000/api/mangas?title=shigurui
+// GET http://localhost:3000/api/mangas/title/shigurui
 router.get('/title/:title', mangaController.getMangaByTitleController);
 
 // PUT http://localhost:3000/api/mangas

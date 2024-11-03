@@ -134,11 +134,11 @@ module.exports = {
 // createUser(newUser).then(data => console.log(data));
 
 // const modifiedUser = {
-//     username: 'Jonás5',
-//     password: 'jonipassword',
-//     isadmin: true,
-//     islogged: true,
-//     email: 'jonas@email.com'
+    // username: 'Jonás5',
+    // password: 'jonipassword',
+    // isadmin: true,
+    // islogged: true,
+    // email: 'jonas@email.com'
 // }
 
 // updateUser(modifiedUser).then(data => console.log(data));
