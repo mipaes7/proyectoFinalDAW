@@ -1,28 +1,21 @@
 import React from "react";
+import { Pagination } from "@mui/material";
 
 const MangaListPagination = ({ page, totalPages, onPageChange }) => {
-  
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      onPageChange(page - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      onPageChange(page + 1);
-    }
+  const handleChange = (event, value) => {
+    onPageChange(value);
   };
 
   return (
     <article className="pagination">
-      <button className="pageBtn" onClick={handlePreviousPage} disabled={page === 1}>
-        Previous
-      </button>
-      <span className="pageInfo">Page {page} of {totalPages}</span>
-      <button className="pageBtn" onClick={handleNextPage} disabled={page === totalPages}>
-        Next
-      </button>
+      <Pagination
+        count={totalPages}
+        page={page}
+        onChange={handleChange}
+        size="large"
+        variant="outlined"
+        shape="rounded"
+      />
     </article>
   );
 };
