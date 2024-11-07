@@ -4,12 +4,12 @@ import MangaCard from './MangaCard';
 import MangaListPagination from "../MangasListPagination/MangasListPagination";
 import { getMangas } from "../../../../services/mangas";
 
-const MangasList = () => {
+const MangasList = ({searchTerm}) => {
   const [mangas, setMangas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchMangas = async () => {
