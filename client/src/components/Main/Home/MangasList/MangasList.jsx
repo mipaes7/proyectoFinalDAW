@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import MangaCard from './MangaCard';
+import MangaListPagination from "../MangasListPagination/MangasListPagination";
 import { getMangas } from "../../../../services/mangas";
 
 const MangasList = () => {
   const [mangas, setMangas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -17,6 +19,7 @@ const MangasList = () => {
             if (data) {
                 setMangas(data.data);
                 console.log(data.data);
+                setTotalPages(data.pagination.last_visible_page);
             }
         } catch (error) {
             setError("Failed to fetch mangas.");
@@ -40,13 +43,21 @@ const renderMangaCard = () => {
   ))
 };
 
-  return (<section className="searchAndListContainer">
-    <article className="mangaCardsContainer">
-      hello
-      {loading ? <p>Loading...</p> : renderMangaCard()}
-    </article>
-  </section>
-  );
+const handlePageChange = (newPage) => {
+  setPage(newPage);
+}
+
+return (<section className="searchAndListContainer">
+  <article className="mangaCardsContainer">
+    {loading ? <p>Loading...</p> : renderMangaCard()}
+  </article>
+  <MangaListPagination 
+    page={page}
+    totalPages={totalPages}
+    onPageChange={handlePageChange}
+  />
+</section>
+);
 };
 
 export default MangasList;
