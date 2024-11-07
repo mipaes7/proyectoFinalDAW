@@ -9,7 +9,6 @@ const MangasList = ({searchTerm}) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  // const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchMangas = async () => {
