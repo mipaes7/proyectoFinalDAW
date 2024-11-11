@@ -1,0 +1,20 @@
+/* Ensure the arrows are visible */
+.slick-prev, .slick-next {
+    z-index: 1;
+    color: black; /* Customize arrow color */
+  }
+  
+  /* Optional: Set a max-width for the carousel */
+  .recommendation-slide {
+    text-align: center;
+  }
+  
+  .slick-slider {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .slick-arrow {
+    display: block !important;
+  }
+  

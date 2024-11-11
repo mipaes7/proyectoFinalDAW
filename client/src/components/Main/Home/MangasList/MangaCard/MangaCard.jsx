@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const MangaCard = ({
   manga: { title, synopsis, chapters, status, score, scored_by, rank, genres, mal_id },
   mangaCover: { large_image_url }
 }) => {
 
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = () => {
+    navigate(`manga/${mal_id}`)
+  };
 
   return <article
     className="mangaCard"
@@ -18,24 +24,24 @@ const MangaCard = ({
       {isHovered && (
         <div className="mangaSynopsis">
           <p>{synopsis}</p>
-          <button>See more    {"\u{027A4}"}</button>
+          <button onClick={handleClick}>See more    {"\u{027A4}"}</button>
         </div>
       )}
+    </div>
+    <div className="mangaInfo">
+      <h3 className="mangaTitle">{title}</h3>
+      <p className="mangaStatus">{status}</p>
+      {chapters !== null ? <p className="mangaEpisodes">{chapters} chapters</p> : ""}
+      <div className="mangaStats">
+        <span className="mangaScore"><p><strong>{"\u{02606}"}</strong>{score}</p><p>{scored_by} users</p></span>
+        <span className="mangaRanking"><p>#{rank}</p><p>Ranking</p></span>
       </div>
-      <div className="mangaInfo">
-        <h3 className="mangaTitle">{title}</h3>
-        <p className="mangaStatus">{status}</p>
-        {chapters !== null ? <p className="mangaEpisodes">{chapters} chapters</p> : ""}
-        <div className="mangaStats">
-          <span className="mangaScore"><p><strong>{"\u{02606}"}</strong>{score}</p><p>{scored_by} users</p></span>
-          <span className="mangaRanking"><p>#{rank}</p><p>Ranking</p></span>
-        </div>
-        <div className="mangaGenres">
-          {genres.map((genre, index) => (
-            <span key={index} className="genreTag">{genre.name}</span>
-          ))}
-        </div>
+      <div className="mangaGenres">
+        {genres.map((genre, index) => (
+          <span key={index} className="genreTag">{genre.name}</span>
+        ))}
       </div>
+    </div>
   </article>;
 };
 
