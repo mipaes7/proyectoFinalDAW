@@ -69,36 +69,31 @@ const MangaDetails = () => {
         <p>Loading</p>
       )}
       {manga ? (<article className="manga-details-mainInfo">
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Synopsis
-        </AccordionSummary>
-        <AccordionDetails>
-          <p>{manga.synopsis}</p>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Background
-        </AccordionSummary>
-        <AccordionDetails>
-          <p>{manga.background}</p>
-        </AccordionDetails>
-      </Accordion>
-      {characters ? (<CharactersAccordion characters={characters}/>) : (<p>No characters found</p>)}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Recommendations
-        </AccordionSummary>
-        <AccordionDetails>
-          {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)}
-        </AccordionDetails>
-      </Accordion>
-      </article>) : 
-      (
-        <p>Loading</p>
-      )}
-      {/* {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)} */}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            Synopsis
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>{manga.synopsis}</p>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            Background
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>{manga.background}</p>
+          </AccordionDetails>
+        </Accordion>
+        {characters ? (<CharactersAccordion characters={characters} />) : (<p>No characters found</p>)}
+        <aside className="manga-recommendations">
+        <h3 className="manga-recommendations-title">Recommendations</h3>
+        {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)}
+        </aside>
+      </article>) :
+        (
+          <p>Loading</p>
+        )}
     </section>
   );
 };

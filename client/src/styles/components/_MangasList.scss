@@ -1,0 +1,12 @@
+.mangas-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .manga-cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

@@ -1,20 +1,58 @@
-/* Ensure the arrows are visible */
-.slick-prev, .slick-next {
-    z-index: 1;
-    color: black; /* Customize arrow color */
-  }
-  
-  /* Optional: Set a max-width for the carousel */
-  .recommendation-slide {
-    text-align: center;
-  }
-  
-  .slick-slider {
+
+.recommendation-slide {
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+  // background-color: rgba($yellow, 0.6);
+
+  img {
     max-width: 100%;
-    margin: 0 auto;
+    height: 300px;
+    border-radius: 8px;
+    margin-bottom: 8px;
   }
-  
-  .slick-arrow {
-    display: block !important;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
+
+  button {
+    background-color: $black;
+    color: white;
+    border: 1px solid $white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $yellow;
+      border: 1px solid $yellow;
+    }
+  }
+}
+
+.slick-slider {
+  max-width: 100%;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #333;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #fca311;
+}
+
   

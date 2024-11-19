@@ -14,7 +14,7 @@ const MangasList = ({searchTerm}) => {
     const fetchMangas = async () => {
         setLoading(true);
         try {
-            const data = await getMangas(page, 10, searchTerm);
+            const data = await getMangas(page, 12, searchTerm);
             if (data) {
                 setMangas(data.data);
                 console.log(data.data);
@@ -46,8 +46,8 @@ const handlePageChange = (newPage) => {
   setPage(newPage);
 }
 
-return (<section className="searchAndListContainer">
-  <article className="mangaCardsContainer">
+return (<section className="mangas-list">
+  <article className="manga-cards-container">
     {loading ? <p>Loading...</p> : renderMangaCard()}
   </article>
   <MangaListPagination 
