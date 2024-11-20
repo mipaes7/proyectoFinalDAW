@@ -1,0 +1,77 @@
+@import "../utils/variables.scss";
+
+.library {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 22%;
+  gap: 16px;
+
+  @media screen and (max-width: 768px) {
+    min-width: 100%;
+  }
+}
+
+.columnTitle {
+  color: $yellow;
+  background-color: $blue;
+  border: 3px solid $yellow;
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 90%;
+}
+
+.droppable-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $blue;
+  border: 3px solid $white;
+  border-radius: 8px;
+  padding: 12px;
+  min-height: 300px;
+  width: 90%;
+}
+
+.draggable-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  user-select: none;
+  width: 70%;
+  padding: 16px;
+  margin-bottom: 8px;
+  background-color: $yellow;
+  border: 3px solid $grey;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  color: $white;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: darken($blue, 10%);
+    cursor: grab;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.placeholder {
+  color: $grey;
+  font-size: 1rem;
+  text-align: center;
+}
