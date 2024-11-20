@@ -8,7 +8,15 @@ const MangaSearch = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    onSearch(inputValue);
+    if (inputValue.trim()) {
+      onSearch(inputValue.trim());
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -17,9 +25,13 @@ const MangaSearch = ({ onSearch }) => {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         placeholder="Search for manga"
+        aria-label="Search for manga"
       />
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={handleSearch} disabled={!inputValue.trim()}>
+        Search
+      </button>
     </div>
   );
 };

@@ -1,0 +1,56 @@
+@import '../utils/variables.scss';
+
+.mangaSearch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0.5rem;
+
+  input {
+    flex: 1;
+    max-width: 400px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid $grey;
+    border-radius: 5px;
+    outline: none;
+
+    &:focus {
+      border-color: $blue;
+      box-shadow: 0 0 5px rgba($blue, 0.5);
+    }
+  }
+
+  button {
+    background-color: $yellow;
+    color: $white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($yellow, 10%);
+    }
+
+    &:disabled {
+      background-color: $grey;
+      cursor: not-allowed;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    input {
+      max-width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

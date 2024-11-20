@@ -11,7 +11,7 @@ const Home = () => {
   }
 
   return (
-  <div>
+  <div className="search-list-container">
     <MangaSearch onSearch={handleSearch} />
     <MangasList searchTerm={searchTerm} />
   </div>

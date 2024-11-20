@@ -45,6 +45,18 @@ const MangaDetails = () => {
     fetchMangaDetails();
   }, [id]);
 
+  const formatAuthorName = (data) => {
+    return data.map(author => {
+      const nameParts = author.name.split(', ');
+      if (nameParts.length === 2) {
+          const [lastName, firstName] = nameParts;
+          return `${firstName} ${lastName}`;
+      } else {
+          return nameParts[0];
+      }
+  }).join(', ');
+  };
+
   return (
     <section className="manga-details">
       {manga ? (<article className="manga-details-cover-info">
@@ -53,6 +65,7 @@ const MangaDetails = () => {
         </div>
         <div className="manga-details-info">
           <h3 className="mangaTitle">{manga.title}</h3>
+          <h4 className="mangaAuthor">{formatAuthorName(manga.authors)}</h4>
           <p className="mangaStatus">{manga.status}</p>
           {manga.chapters !== null ? <p className="mangaEpisodes">{manga.chapters} chapters</p> : ""}
           <div className="mangaStats">
@@ -69,36 +82,31 @@ const MangaDetails = () => {
         <p>Loading</p>
       )}
       {manga ? (<article className="manga-details-mainInfo">
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Synopsis
-        </AccordionSummary>
-        <AccordionDetails>
-          <p>{manga.synopsis}</p>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Background
-        </AccordionSummary>
-        <AccordionDetails>
-          <p>{manga.background}</p>
-        </AccordionDetails>
-      </Accordion>
-      {characters ? (<CharactersAccordion characters={characters}/>) : (<p>No characters found</p>)}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Recommendations
-        </AccordionSummary>
-        <AccordionDetails>
-          {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)}
-        </AccordionDetails>
-      </Accordion>
-      </article>) : 
-      (
-        <p>Loading</p>
-      )}
-      {/* {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)} */}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            Synopsis
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>{manga.synopsis}</p>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            Background
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>{manga.background}</p>
+          </AccordionDetails>
+        </Accordion>
+        {characters ? (<CharactersAccordion characters={characters} />) : (<p>No characters found</p>)}
+        <aside className="manga-recommendations">
+        <h3 className="manga-recommendations-title">Recommendations</h3>
+        {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)}
+        </aside>
+      </article>) :
+        (
+          <p>Loading</p>
+        )}
     </section>
   );
 };

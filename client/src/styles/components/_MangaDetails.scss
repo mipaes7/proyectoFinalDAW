@@ -1,0 +1,172 @@
+.manga-details {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 1rem;
+    padding-right: 0;
+    background-color: $white;
+    color: $black;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    min-height: 70vh;
+
+    .manga-details-cover-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px;
+        gap: 1rem;
+        flex: 1;
+        max-width: 300px;
+        background-color: rgba($yellow, 0.6);
+        border-radius: 5px;
+
+        .manga-details-cover {
+            width: 100%;
+            max-width: 250px;
+
+            img {
+                width: 100%;
+                height: 350px;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba($black, 0.1);
+            }
+        }
+
+        .manga-details-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+
+            .mangaTitle {
+                font-size: 1rem;
+                font-weight: bold;
+                color: $blue;
+                text-align: center;
+                word-wrap: break-word;
+            }
+
+            .mangaAuthor {
+                font-size: 0.8rem;
+                font-weight: bold;
+                color: $blue;
+                text-align: center;
+                word-wrap: break-word;
+            }
+
+            .mangaStatus {
+                font-size: 0.6rem;
+                font-style: italic;
+                color: $blue;
+                text-align: center;
+            }
+
+            .mangaEpisodes {
+                font-size: 1rem;
+                font-weight: normal;
+                color: $black;
+                text-align: center;
+            }
+
+            .mangaStats {
+                display: flex;
+                justify-content: center;
+                gap: 1.5rem;
+
+                .mangaScore,
+                .mangaRanking {
+                    background-color: $yellow;
+                    padding: 0.5rem 1rem;
+                    border-radius: 5px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    p:first-child {
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                    }
+
+                    p:last-child {
+                        font-size: 0.9rem;
+                        color: $black;
+                    }
+                }
+            }
+
+            .mangaGenres {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+
+                .genreTag {
+                    background-color: $grey;
+                    color: $black;
+                    padding: 0.3rem 0.6rem;
+                    font-size: 0.9rem;
+                    border-radius: 15px;
+                }
+            }
+        }
+    }
+
+    .manga-details-mainInfo {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 70%;
+        box-sizing: border-box;
+
+        .MuiAccordion-root {
+            color: $black;
+            width: 100%;
+            border-radius: 5px;
+
+            .MuiAccordionSummary-root {
+                background-color: $yellow;
+                color: $black;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+
+            .MuiAccordionDetails-root {
+                background-color: rgba($yellow, 0.6);
+                border-radius: 5px;
+                padding: 1rem;
+                font-size: 0.95rem;
+                line-height: 1.6;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                white-space: pre-wrap;
+                overflow-x: hidden;
+            }
+        }
+
+        .manga-recommendations {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba($yellow, 0.6);
+            border-radius: 8px;
+            height: 70%;
+
+            .manga-recommendations-title {
+                background-color: $yellow;
+                color: $black;
+                font-weight: bold;
+                border-radius: 5px;
+                padding: 14px;
+                font-size: medium;
+            }
+        }
+
+        .no-data {
+            font-size: 1rem;
+            color: $grey;
+        }
+    }
+}
