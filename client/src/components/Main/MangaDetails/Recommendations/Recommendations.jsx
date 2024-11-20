@@ -18,6 +18,7 @@ const Recommendations = ({ recommendationsByManga }) => {
     slidesToScroll: 5,
     autoplay: true,
     autoplaySpeed: 3000,
+    trl: true,
     responsive: [
       {
         breakpoint: 1024,

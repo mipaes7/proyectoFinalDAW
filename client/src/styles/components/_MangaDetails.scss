@@ -3,11 +3,14 @@
     flex-direction: row;
     gap: 2rem;
     padding: 1rem;
+    padding-right: 0;
     background-color: $white;
     color: $black;
     max-width: 100%;
     overflow-x: hidden;
+    overflow-y: hidden;
     box-sizing: border-box;
+    min-height: 70vh;
 
     .manga-details-cover-info {
         display: flex;
@@ -26,6 +29,7 @@
 
             img {
                 width: 100%;
+                height: 350px;
                 border-radius: 10px;
                 box-shadow: 0 4px 6px rgba($black, 0.1);
             }
@@ -38,7 +42,15 @@
             width: 100%;
 
             .mangaTitle {
-                font-size: 2rem;
+                font-size: 1rem;
+                font-weight: bold;
+                color: $blue;
+                text-align: center;
+                word-wrap: break-word;
+            }
+
+            .mangaAuthor {
+                font-size: 0.8rem;
                 font-weight: bold;
                 color: $blue;
                 text-align: center;
@@ -46,7 +58,7 @@
             }
 
             .mangaStatus {
-                font-size: 1rem;
+                font-size: 0.6rem;
                 font-style: italic;
                 color: $blue;
                 text-align: center;
@@ -92,8 +104,8 @@
                 gap: 0.5rem;
 
                 .genreTag {
-                    background-color: $blue;
-                    color: $white;
+                    background-color: $grey;
+                    color: $black;
                     padding: 0.3rem 0.6rem;
                     font-size: 0.9rem;
                     border-radius: 15px;
@@ -113,6 +125,7 @@
         .MuiAccordion-root {
             color: $black;
             width: 100%;
+            border-radius: 5px;
 
             .MuiAccordionSummary-root {
                 background-color: $yellow;
@@ -138,6 +151,8 @@
             display: flex;
             flex-direction: column;
             background-color: rgba($yellow, 0.6);
+            border-radius: 8px;
+            height: 70%;
 
             .manga-recommendations-title {
                 background-color: $yellow;
