@@ -5,6 +5,7 @@ import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CharactersAccordion from "./CharactersAccordion/CharactersAccordion";
 import Recommendations from "./Recommendations/Recommendations";
+import { FiBookmark } from "react-icons/fi";
 
 const MangaDetails = () => {
 
@@ -49,12 +50,17 @@ const MangaDetails = () => {
     return data.map(author => {
       const nameParts = author.name.split(', ');
       if (nameParts.length === 2) {
-          const [lastName, firstName] = nameParts;
-          return `${firstName} ${lastName}`;
+        const [lastName, firstName] = nameParts;
+        return `${firstName} ${lastName}`;
       } else {
-          return nameParts[0];
+        return nameParts[0];
       }
-  }).join(', ');
+    }).join(', ');
+  };
+
+  const handleAddToLibrary = () => {
+    console.log(`Manga with ID ${id} added to library`);
+    alert("Manga added to library!");
   };
 
   return (
@@ -77,6 +83,10 @@ const MangaDetails = () => {
               <span key={index} className="genreTag">{genre.name}</span>
             ))}
           </div>
+          <button className="add-to-library-btn" onClick={() => handleAddToLibrary(manga.id)}>
+            <FiBookmark className="bookmark-icon" />
+            Add to Library
+          </button>
         </div>
       </article>) : (
         <p>Loading</p>
@@ -100,8 +110,8 @@ const MangaDetails = () => {
         </Accordion>
         {characters ? (<CharactersAccordion characters={characters} />) : (<p>No characters found</p>)}
         <aside className="manga-recommendations">
-        <h3 className="manga-recommendations-title">Recommendations</h3>
-        {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)}
+          <h3 className="manga-recommendations-title">Recommendations</h3>
+          {recommendationsByManga ? (<Recommendations recommendationsByManga={recommendationsByManga} />) : (<p>No recommendations found</p>)}
         </aside>
       </article>) :
         (

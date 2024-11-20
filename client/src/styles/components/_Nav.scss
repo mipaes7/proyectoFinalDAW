@@ -1,0 +1,97 @@
+@import '../utils/variables.scss';
+
+.MuiContainer-root {
+    background-color: $yellow;
+    // background: rgba($yellow, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba($black, 0.1);
+
+    img {
+        height: 54px;
+        width: 54px;
+        border-radius: 50%;
+        border: 3px solid $black;
+        margin-right: 4px;
+        rotate: 135deg;
+    }
+}
+
+.nav {
+  background: rgba($white, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba($black, 0.1);
+
+  .nav-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: $black;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    font-size: larger;
+  }
+
+  .nav-menu-icon {
+    color: $blue;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1rem;
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $blue;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: $white;
+      }
+
+      &.active {
+        color: $white;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .nav-menu-item {
+    padding: 12px 24px;
+
+    a {
+      color: $blue;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        color: $yellow;
+      }
+
+      &.active {
+        color: $yellow;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .nav-menu-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
