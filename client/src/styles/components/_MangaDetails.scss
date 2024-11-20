@@ -111,6 +111,42 @@
                     border-radius: 15px;
                 }
             }
+
+            .add-to-library-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                padding: 0.7rem 1rem;
+                font-size: 1rem;
+                font-weight: bold;
+                background-color: $yellow;
+                color: $black;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+              
+                .bookmark-icon {
+                  font-size: 1.2rem; // Size for the bookmark icon
+                }
+              
+                &:hover {
+                  background-color: darken($yellow, 10%);
+                  transform: translateY(-2px);
+                }
+              
+                &:active {
+                  transform: translateY(0);
+                  background-color: darken($yellow, 15%);
+                }
+              
+                &:focus {
+                  outline: 2px solid $blue;
+                  outline-offset: 2px;
+                }
+              }
+              
         }
     }
 

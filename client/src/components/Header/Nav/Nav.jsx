@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   Box,
 } from "@mui/material";
-import { FiMenu, FiHome, FiUserCheck, FiUserPlus, FiX, FiUserMinus  } from "react-icons/fi";
+import { FiMenu, FiHome, FiUserCheck, FiUserPlus, FiX, FiUserX } from "react-icons/fi";
 import { FaBookmark } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -19,8 +19,8 @@ const navigationItems = [
   { text: "Home", path: "/", icon: <FiHome />, ariaLabel: "Navigate to home page" },
   { text: "Library", path: "/library", icon: <FaBookmark />, ariaLabel: "Go to your manga library" },
   { text: "Login", path: "/login", icon: <FiUserCheck />, ariaLabel: "Login" },
-  { text: "Register", path: "/register", icon: <FiUserPlus />, ariaLabel: "Register" },
-  { text: "Logout", /*path: "/",*/ icon: <FiUserMinus />, ariaLabel: "Logout" },
+  { text: "Sign Up", path: "/register", icon: <FiUserPlus />, ariaLabel: "Sign Up" },
+  { text: "Logout", /*path: "/",*/ icon: <FiUserX />, ariaLabel: "Logout" },
 ];
 
 const Nav = () => {
