@@ -1,21 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { loginUser } from "../../../services/users";
+import { AuthContext } from "../../../context/authContext";
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Both fields are required.");
-      console.log("Error: Both fields are required.");
-      return;
-    }
+    try {
+      setError(null);
+      const response = await loginUser(formData);
+      console.log("Login response:", response);
 
-    setError(null);
-    console.log("Logging in with:", { email, password });
+      const decodedToken = jwtDecode(response.token);
+      console.log("Decoded token:", decodedToken);
+
+      // global state
+      setAuth({
+        email: decodedToken.email,
+        isAdmin: decodedToken.isadmin,
+        userId: decodedToken.userId,
+        isAuthenticated: true,
+      });
+
+      // navegar a homepage
+      navigate('/');
+      console.log("Logged in successfully");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.message || "Invalid email or password");
+    }
   };
 
   return (
@@ -25,21 +50,25 @@ const Login = () => {
         {error && <p className="error">{error}</p>}
         <input
           className="loginInput"
-          type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
           required
         />
         <input
           className="loginInput"
-          type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
           required
         />
-        <button className="submitLoginBtn" type="submit">Login</button>
+        <button className="submitLoginBtn" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

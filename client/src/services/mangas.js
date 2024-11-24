@@ -64,3 +64,13 @@ export const getMangaCharacters = async (id) => {
       console.error(error);
     }
   };
+
+  export const getMangaDetailsByTitle = async (title) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/mangas/title/${title}`);
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  };

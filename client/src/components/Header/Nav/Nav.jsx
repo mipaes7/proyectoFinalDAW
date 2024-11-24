@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -13,20 +13,16 @@ import {
 } from "@mui/material";
 import { FiMenu, FiHome, FiUserCheck, FiUserPlus, FiX, FiUserX } from "react-icons/fi";
 import { FaBookmark } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
-
-const navigationItems = [
-  { text: "Home", path: "/", icon: <FiHome />, ariaLabel: "Navigate to home page" },
-  { text: "Library", path: "/library", icon: <FaBookmark />, ariaLabel: "Go to your manga library" },
-  { text: "Login", path: "/login", icon: <FiUserCheck />, ariaLabel: "Login" },
-  { text: "Sign Up", path: "/register", icon: <FiUserPlus />, ariaLabel: "Sign Up" },
-  { text: "Logout", /*path: "/",*/ icon: <FiUserX />, ariaLabel: "Logout" },
-];
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../context/authContext";
+import { logoutUser } from "../../../services/users";
 
 const Nav = () => {
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { auth, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleOpenMobileMenu = (event) => {
     setMobileMenuAnchor(event.currentTarget);
@@ -34,6 +30,22 @@ const Nav = () => {
 
   const handleCloseMobileMenu = () => {
     setMobileMenuAnchor(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+
+      setAuth({
+        email: null,
+        isAdmin: false,
+        isAuthenticated: false,
+      });
+
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -76,38 +88,130 @@ const Nav = () => {
                 open={Boolean(mobileMenuAnchor)}
                 onClose={handleCloseMobileMenu}
               >
-                {navigationItems.map((item) => (
+                {/* Always render Home and Library */}
+                <MenuItem
+                  onClick={handleCloseMobileMenu}
+                  className="nav-menu-item"
+                  aria-label="Navigate to home page"
+                >
+                  <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+                    <Box className="nav-menu-box">
+                      <FiHome />
+                      <Typography>Home</Typography>
+                    </Box>
+                  </NavLink>
+                </MenuItem>
+
+                {auth.isAuthenticated && (
                   <MenuItem
-                    key={item.text}
                     onClick={handleCloseMobileMenu}
                     className="nav-menu-item"
-                    aria-label={item.ariaLabel}
+                    aria-label="Go to your manga library"
                   >
-                    <NavLink
-                      to={item.path}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
+                    <NavLink to="/library" className={({ isActive }) => (isActive ? "active" : "")}>
                       <Box className="nav-menu-box">
-                        {item.icon}
-                        <Typography>{item.text}</Typography>
+                        <FaBookmark />
+                        <Typography>Library</Typography>
                       </Box>
                     </NavLink>
                   </MenuItem>
-                ))}
+                )}
+
+                {!auth.isAuthenticated && (
+                  <>
+                    <MenuItem
+                      onClick={handleCloseMobileMenu}
+                      className="nav-menu-item"
+                      aria-label="Login"
+                    >
+                      <NavLink to="/login" className={({ isActive }) => (isActive ? "active" : "")}>
+                        <Box className="nav-menu-box">
+                          <FiUserCheck />
+                          <Typography>Login</Typography>
+                        </Box>
+                      </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleCloseMobileMenu}
+                      className="nav-menu-item"
+                      aria-label="Sign Up"
+                    >
+                      <NavLink
+                        to="/register"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        <Box className="nav-menu-box">
+                          <FiUserPlus />
+                          <Typography>Sign Up</Typography>
+                        </Box>
+                      </NavLink>
+                    </MenuItem>
+                  </>
+                )}
+
+                {auth.isAuthenticated && (
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseMobileMenu();
+                      handleLogout();
+                    }}
+                    className="nav-menu-item"
+                    aria-label="Logout"
+                  >
+                    <Box className="nav-menu-box">
+                      <FiUserX />
+                      <Typography>Logout</Typography>
+                    </Box>
+                  </MenuItem>
+                )}
               </Menu>
             </>
           ) : (
             <Box className="nav-links">
-              {navigationItems.map((item) => (
+              <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+                <FiHome />
+                <span>Home</span>
+              </NavLink>
+
+              {auth.isAuthenticated && (
                 <NavLink
-                  key={item.text}
-                  to={item.path}
+                  to="/library"
                   className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                 >
-                  {item.icon}
-                  <span>{item.text}</span>
+                  <FaBookmark />
+                  <span>Library</span>
                 </NavLink>
-              ))}
+              )}
+
+              {!auth.isAuthenticated && (
+                <>
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  >
+                    <FiUserCheck />
+                    <span>Login</span>
+                  </NavLink>
+                  <NavLink
+                    to="/register"
+                    className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  >
+                    <FiUserPlus />
+                    <span>Sign Up</span>
+                  </NavLink>
+                </>
+              )}
+
+              {auth.isAuthenticated && (
+                <NavLink
+                  className="nav-logout-btn"
+                  onClick={handleLogout}
+                  aria-label="Logout"
+                >
+                  <FiUserX />
+                  <span>Logout</span>
+                </NavLink>
+              )}
             </Box>
           )}
         </Toolbar>
