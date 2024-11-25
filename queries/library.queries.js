@@ -1,3 +1,5 @@
+const { getLibraryById } = require("../models/library.models");
+
 const libraryQueries = {
     // Read All libraries INNER JOIN users AND manga
     getAllLibraries: `
@@ -7,6 +9,16 @@ const libraryQueries = {
     ON u.user_id = l.user_id
     INNER JOIN manga AS m
     ON m.manga_id = l.manga_id;`,
+
+    //Get all manga entries by user_id
+    getLibraryByUserId: `
+    SELECT l.*, u.email, m.title
+    FROM user_library as l
+    INNER JOIN users AS u
+    ON l.user_id = u.user_id
+    INNER JOIN manga AS m
+    ON m.manga_id = l.manga_id
+    WHERE u.user_id = $1`,
 
     // Read all manga entries by user's email
     getMangaEntriesByEmail: `

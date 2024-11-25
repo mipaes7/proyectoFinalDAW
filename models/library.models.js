@@ -31,6 +31,21 @@ const getLibraryByEmail = async (email) => {
     return result;
 };
 
+const getLibraryById = async (user_id) => {
+    let client, result;
+    try {
+        client = await pool.connect(); // Espera a abrir conexion
+        const data = await client.query(queries.getLibraryByUserId, [user_id]);
+        result = data.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result;
+};
+
 const createLibraryEntry = async (entry) => {
     const { email, title, status } = entry;
     let client, result;
@@ -82,12 +97,15 @@ const deleteEntry = async (entry) => {
 module.exports = {
     getAllLibraries,
     getLibraryByEmail,
+    getLibraryById,
     createLibraryEntry,
     updateLibraryEntryStatus,
     deleteEntry
 };
 
 // getAllLibraries().then(data => console.log(data));
+
+// getLibraryById(3).then(data => console.log(data));
 
 // getLibraryByEmail('charlie.black@example.com').then(data => console.log(data));
 

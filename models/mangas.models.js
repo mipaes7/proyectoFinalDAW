@@ -16,6 +16,21 @@ const getAllMangas = async () => {
     return result;
 };
 
+const getMangasByUserId = async (id) => {
+    let client, result;
+    try {
+        client = await pool.connect();
+        const data = await client.query(queries.getMangasByUserId, [id]);
+        result = data.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result;
+};
+
 const getMangaByTitle = async (title) => {
     let client, result;
     try {
@@ -175,6 +190,7 @@ module.exports = {
     getMangaByGenre,
     getMangaByTitle,
     getMangaByAuthor,
+    getMangasByUserId,
     getAllReadingMangas,
     getAllDroppedMangas,
     getAllFinishedMangas,

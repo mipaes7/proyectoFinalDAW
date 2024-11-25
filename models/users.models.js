@@ -16,6 +16,21 @@ const getUserByEmail = async (email) => {
     return result;
 };
 
+const getUserById = async (user_id) => {
+    let client, result;
+    try{
+        client = await pool.connect();
+        const data = await client.query(queries.getUserById, [user_id]);
+        result = data.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result;
+};
+
 const getAllUsers = async () => {
     let client, result;
     try {
@@ -97,11 +112,11 @@ const setLoggedFalse = async (email) => {
     return result;
 };
 
-const deleteUser = async (email) => {
+const deleteUser = async (id) => {
     let client, result;
     try {
         client = await pool.connect();
-        const data = await client.query(queries.deleteUserByEmail, [email]);
+        const data = await client.query(queries.deleteUserById, [id]);
         result = data.rowCount;
     } catch (error) {
         console.log(error);
@@ -115,6 +130,7 @@ const deleteUser = async (email) => {
 module.exports = {
     getAllUsers,
     getUserByEmail,
+    getUserById,
     createUser,
     updateUser,
     setLoggedTrue,
@@ -124,6 +140,7 @@ module.exports = {
 
 // getAllUsers().then(data => console.log(data));
 // getUserByEmail('jonasmail@mail.com').then(data => console.log(data));
+// getUserById(3).then(data => console.log(data));
 
 // const newUser = {
 //     "username": "Jonás2",

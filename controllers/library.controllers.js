@@ -15,6 +15,20 @@ const readLibrariesController = async (req, res) => {
     }
 };
 
+const readLibrariesByUserIdController = async (req, res) => {
+    let libraryById;
+    try {
+        const id = parseInt(req.params.id);
+        libraryById = await library.getLibraryById(id);
+        if (libraryById.length === 0) {
+            return res.status(404).json({ msg: 'Librería no encontrada' });
+        }
+        res.status(200).json(libraryById);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 const createLibraryEntryController = async (req, res) => {
     const newEntry = req.body;
     if ("email" in newEntry && "title" in newEntry && "status" in newEntry) {
@@ -68,6 +82,7 @@ const deleteEntryController = async (req, res) => {
 
 module.exports = {
     readLibrariesController,
+    readLibrariesByUserIdController,
     createLibraryEntryController,
     updateLibraryEntryStatusController,
     deleteEntryController

@@ -10,6 +10,17 @@ const getAllMangasController = async (req, res) => {
     }
 };
 
+const getMangasByUserIdController = async (req, res) => {
+    const userid = req.params.id;
+    try {
+        const mangas = await manga.getMangasByUserId(userid);
+        res.status(200).json(mangas);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 const getMangaByTitleController = async (req, res) => {
     const { title } = req.params;
     try {
@@ -136,6 +147,7 @@ const deleteMangaController = async (req, res) => {
 
 module.exports = {
     getAllMangasController,
+    getMangasByUserIdController,
     getMangaByTitleController,
     getMangaByGenreController,
     getMangaByAuthorController,
