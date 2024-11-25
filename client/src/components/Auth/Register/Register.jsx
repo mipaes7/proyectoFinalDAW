@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { registerUser } from "../../../services/users";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -6,10 +7,11 @@ const Register = () => {
     email: "",
     password: "",
     repeatPassword: "",
-    isadmin: false
+    isadmin: false,
   });
 
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +21,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.repeatPassword) {
@@ -28,9 +30,30 @@ const Register = () => {
       return;
     }
 
-    setError(null);
-    console.log("Registering user:", formData);
-    // This is where you'd handle actual registration logic (e.g., API call)
+    try {
+      setError(null);
+      setSuccess(null);
+
+      const response = await registerUser({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        isadmin: formData.isadmin,
+      });
+
+      console.log("User registered successfully:", response);
+      setSuccess("Registration successful! You can now log in.");
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+        repeatPassword: "",
+        isadmin: false,
+      });
+    } catch (err) {
+      console.error("Error during registration:", err);
+      setError(err.message || "An error occurred during registration.");
+    }
   };
 
   return (
@@ -38,6 +61,7 @@ const Register = () => {
       <form onSubmit={handleSubmit} className="registerForm">
         <h2 className="registerTitle">Sign Up</h2>
         {error && <p className="error">{error}</p>}
+        {success && <p className="success">{success}</p>}
         <input
           className="registerInput"
           placeholder="Username"

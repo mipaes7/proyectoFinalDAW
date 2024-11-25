@@ -54,6 +54,21 @@ const readUsersController = async (req, res) => {
     }
 };
 
+// Read Users By user_id
+const readUsersByIdController = async (req, res) => {
+    let userById;
+    try {
+        const id = parseInt(req.params.id);
+        userById = await user.getUserById(id);
+        if (userById.length === 0) {
+            return res.status(404).json({ msg: 'Usuario no encontrado' });
+        }
+        res.status(200).json(userById);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Update User Controller
 const updateUserController = async (req, res) => {
     const modifiedUser = req.body;
@@ -75,7 +90,7 @@ const updateUserController = async (req, res) => {
 const deleteUserController = async (req, res) => {
     let users;
     try {
-        users = await user.deleteUser(req.query.email);
+        users = await user.deleteUser(req.query.id);
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ error: 'Database error' });
@@ -102,12 +117,15 @@ const login = async (req, res) => {
 
             const userForToken = {
                 email: userData.email,
-                isadmin: userData.isadmin
+                isadmin: userData.isadmin,
+                userId: userData.user_id
             };
+
+            console.log(userForToken);
 
             const token = jwt.sign(userForToken, jwt_secret, { expiresIn: '20m' });
 
-            res.cookie('token', token, { httpOnly: true, sameSite: 'none', maxAge: 20 * 60 * 1000 });
+            res.cookie('token', token, { httpOnly: true, sameSite: 'lax', maxAge: 20 * 60 * 1000 });
             // res.cookie('email', email, { httpOnly: true, sameSite: 'none', maxAge: 20 * 60 * 1000 });
             
             // console.log('Response headers:', res.getHeaders());
@@ -128,30 +146,51 @@ const login = async (req, res) => {
 // Logout Controller
 const logout = async (req, res) => {
     try {
-        console.log(req.cookies);
-        const token = req.cookies.token;
-        console.log('token', token)
-
-        if (!token) {
-            return res.status(400).json({ message: 'No token provided' });
-        }
-
-        const decoded = jwt.verify(token, jwt_secret);
-        if (!decoded) {
-            return res.status(401).json({ message: 'Invalid token' });
-        }
-
-        await user.setLoggedFalse(decoded.email);
-
-        res.clearCookie('token');
-        // res.clearCookie('email');
-
-        return res.status(200).json({ message: 'Logged out successfully' });
+      console.log("Cookies:", req.cookies); // Debug cookies received
+      const token = req.cookies.token;
+      console.log("Token:", token); // Log token value
+  
+      if (!token) {
+        return res.status(400).json({ message: "No token provided" });
+      }
+  
+      const decoded = jwt.verify(token, jwt_secret);
+      if (!decoded) {
+        return res.status(401).json({ message: "Invalid token" });
+      }
+  
+      await user.setLoggedFalse(decoded.email);
+  
+      res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "lax", // Adjust based on your environment
+      });
+  
+      return res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
-        console.log('Error:', error.message);
-        return res.status(500).json({ message: 'Internal server error' });
+      console.error("Error:", error.message);
+      return res.status(500).json({ message: "Internal server error" });
     }
-};
+  };
+  
+
+const verifyAuth = async (req, res) => {
+    try {
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({ msg: "No token, authorization denied" });
+      }
+  
+      const decoded = jwt.verify(token, jwt_secret);
+      res.status(200).json({
+        email: decoded.email,
+        isadmin: decoded.isadmin,
+      });
+    } catch (error) {
+      console.error("Error verifying token:", error);
+      res.status(401).json({ msg: "Token is not valid" });
+    }
+  };
 
 module.exports = {
     createUserController,
@@ -159,5 +198,7 @@ module.exports = {
     updateUserController,
     deleteUserController,
     login,
-    logout
+    logout,
+    verifyAuth,
+    readUsersByIdController
 };

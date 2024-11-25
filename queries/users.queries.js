@@ -6,9 +6,15 @@ const userQueries = {
 
     //Read user by email
     getUserByEmail: `
-    SELECT username, email, password, isadmin, islogged
+    SELECT username, email, password, isadmin, islogged, user_id
     FROM users
     WHERE email = $1`,
+
+    //Read user by user_id
+    getUserById: `
+    SELECT *
+    FROM users
+    WHERE user_id = $1`,
 
     // Create a new user
     createUser: `
@@ -43,7 +49,13 @@ const userQueries = {
     deleteUserByEmail: `
     DELETE FROM users
     WHERE 
-        email = $1;`
+    email = $1;`,
+
+    //Delete user by user_id
+    deleteUserById: `
+    DELETE FROM users
+    WHERE 
+    user_id = $1;`
 };
 
 module.exports = userQueries;

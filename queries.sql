@@ -86,6 +86,11 @@ SELECT username, email, password, isadmin, islogged
 FROM users
 WHERE email='charlie.black@example.com'
 
+--Read user by id
+SELECT *
+FROM users
+WHERE user_id=1
+
 --Read All mangas
 SELECT title, author, synopsis, cover_image_url, genres, themes
 FROM manga
@@ -106,6 +111,15 @@ ON l.user_id = u.user_id
 INNER JOIN manga AS m
 ON m.manga_id = l.manga_id
 WHERE u.email = 'charlie.black@example.com'
+
+--Read all manga entries by user's id
+SELECT l.*, u.email, m.title
+FROM user_library as l
+INNER JOIN users AS u
+ON l.user_id = u.user_id
+INNER JOIN manga AS m
+ON m.manga_id = l.manga_id
+WHERE u.user_id = 3
 
 -- Get all mangas with 'Reading' status
 SELECT u.username, u.email, m.title, l.status
@@ -201,6 +215,11 @@ AND manga_id = (SELECT manga_id FROM manga WHERE title = 'Hunter x Hunter');
 DELETE FROM users
 WHERE 
     email = 'exampleuser@example.com';
+
+--Delete user by user_id
+DELETE FROM users
+WHERE 
+    user_id = 1;
 
 --Delete the manga
 DELETE FROM manga

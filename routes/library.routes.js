@@ -6,6 +6,9 @@ const router = require('express').Router();
 // GET http://localhost:3000/api/libraries?email=exampleuser@example.com
 router.get('/', libraryController.readLibrariesController);
 
+// GET http://localhost:3000/api/libraries/3
+router.get('/:id', libraryController.readLibrariesByUserIdController);
+
 // POST http://localhost:3000/api/libraries
 router.post('/', libraryController.createLibraryEntryController);
 
