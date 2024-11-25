@@ -10,3 +10,21 @@ export const getLibraryByUserId = async (id = "") => {
         console.log(error);
     }
 };
+
+export const updateLibraryEntryStatus = async (email, title, status) => {
+    const response = await fetch('http://localhost:3000/api/libraries', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, title, status }),
+    });
+
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Failed to update library entry: ${errorMessage}`);
+    }
+
+    return response.json();
+};
+
