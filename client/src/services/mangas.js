@@ -74,3 +74,27 @@ export const getMangaCharacters = async (id) => {
       console.error(error);
     }
   };
+
+  export const createManga = async (manga) => {
+    const { title, author, synopsis, cover_image_url, genres, themes } = manga;
+
+    try {
+        const response = await fetch('http://localhost:3000/api/mangas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, author, synopsis, cover_image_url, genres, themes }),
+        });
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(`Failed to create manga: ${errorMessage}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error creating manga:', error);
+        throw error;
+    }
+};

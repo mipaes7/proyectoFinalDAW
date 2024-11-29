@@ -28,3 +28,24 @@ export const updateLibraryEntryStatus = async (email, title, status) => {
     return response.json();
 };
 
+export const createLibraryEntry = async (email, title, status) => {
+    try {
+        const response = await fetch('http://localhost:3000/api/libraries', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, title, status }),
+        });
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(`Failed to create library entry: ${errorMessage}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error creating library entry:', error);
+        throw error;
+    }
+};

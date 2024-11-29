@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from 'react-router-dom';
-import { getMangaDetailsById, getMangaPictures, getMangaCharacters, getMangaRecommendations } from "../../../services/mangas";
+import { getMangaDetailsById, getMangaPictures, getMangaCharacters, getMangaRecommendations, createManga, getMangaDetailsByTitle } from "../../../services/mangas";
+import { createLibraryEntry } from "../../../services/library";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CharactersAccordion from "./CharactersAccordion/CharactersAccordion";
 import Recommendations from "./Recommendations/Recommendations";
 import { FiBookmark } from "react-icons/fi";
+import { AuthContext } from "../../../context/authContext";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const MangaDetails = () => {
 
@@ -14,6 +18,8 @@ const MangaDetails = () => {
   const [cover, setCover] = useState(null);
   const [characters, setCharacters] = useState(null);
   const [recommendationsByManga, setRecommendationsByManga] = useState(null);
+  const { auth } = useContext(AuthContext);
+  const [alert, setAlert] = useState({ message: '', severity: '' });
 
   useEffect(() => {
     const fetchMangaDetails = async () => {
@@ -21,11 +27,13 @@ const MangaDetails = () => {
         const mangaData = await getMangaDetailsById(id);
         if (mangaData) setManga(mangaData.data);
 
-        const coversData = await getMangaPictures(id);
-        if (coversData && coversData.data.length > 0) {
-          const randomCover = coversData.data[Math.floor(Math.random() * coversData.data.length)];
-          setCover(randomCover.jpg.image_url);
-        }
+        // const coversData = await getMangaPictures(id);
+        // if (coversData && coversData.data.length > 0) {
+        //   const randomCover = coversData.data[Math.floor(Math.random() * coversData.data.length)];
+        //   setCover(randomCover.jpg.image_url);
+        // }
+
+        // setCover(manga.images.jpg.large_image_url);
 
         const charactersData = await getMangaCharacters(id);
         if (charactersData) {
@@ -35,8 +43,8 @@ const MangaDetails = () => {
 
         const recommendationsData = await getMangaRecommendations(id);
         if (recommendationsData) {
-          setRecommendationsByManga(recommendationsData.data.slice(0, 20));
-          console.log(recommendationsData.data.slice(0, 20));
+          setRecommendationsByManga(recommendationsData.data.slice(0, 6));
+          console.log(recommendationsData.data.slice(0, 6));
         }
       } catch (error) {
         console.log(error);
@@ -58,16 +66,38 @@ const MangaDetails = () => {
     }).join(', ');
   };
 
-  const handleAddToLibrary = () => {
-    console.log(`Manga with ID ${id} added to library`);
-    alert("Manga added to library!");
+  const handleAddToLibrary = async () => {
+    try {
+      const mangaExists = await getMangaDetailsByTitle(manga.title);
+
+      if (mangaExists.length === 0) {
+        await createManga({
+          title: manga.title,
+          author: formatAuthorName(manga.authors),
+          synopsis: manga.synopsis,
+          cover_image_url: manga.images.jpg.large_image_url,
+          genres: manga.genres.length !== 0 ? manga.genres.map(genre => genre.name).join(', ') : null,
+          themes: manga.themes.length !== 0 ? manga.themes.map(theme => theme.name).join(', ') : null,
+        });
+      }
+
+      await createLibraryEntry(auth.email, manga.title, "Plan to Read");
+      setAlert({ message: "Manga added to library!", severity: "success" });
+    } catch (error) {
+      // console.log(error.response.status);
+      if (error.response?.status === 500) {
+        setAlert({ message: "Manga already exists in your library!", severity: "error" });
+      } else {
+        setAlert({ message: "Manga already exists in your library!", severity: "error" });
+      }
+    }
   };
 
   return (
     <section className="manga-details">
       {manga ? (<article className="manga-details-cover-info">
         <div className="manga-details-cover">
-          <img src={cover} alt="Manga Cover" />
+          <img src={manga.images.jpg.large_image_url} alt="Manga Cover" />
         </div>
         <div className="manga-details-info">
           <h3 className="mangaTitle">{manga.title}</h3>
@@ -87,6 +117,13 @@ const MangaDetails = () => {
             <FiBookmark className="bookmark-icon" />
             Add to Library
           </button>
+          {alert.message && (
+            <Stack sx={{ width: '100%' }} spacing={2}>
+              <Alert severity={alert.severity} onClose={() => setAlert({ message: '', severity: '' })}>
+                {alert.message}
+              </Alert>
+            </Stack>
+          )}
         </div>
       </article>) : (
         <p>Loading</p>

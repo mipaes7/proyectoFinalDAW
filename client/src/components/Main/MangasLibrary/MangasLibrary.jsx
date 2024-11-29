@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import LibraryCard from "./LibraryCard";
-import { getLibraryByUserId, updateLibraryEntryStatus } from "../../../services/library"; // Import your fetch function
-import { AuthContext } from "../../../context/authContext"; // Assuming AuthContext is available for user data
+import { getLibraryByUserId, updateLibraryEntryStatus } from "../../../services/library";
+import { AuthContext } from "../../../context/authContext"; 
 
 const INITIAL_COLUMNS = {
   planToRead: { title: "Plan to Read", items: [] },
