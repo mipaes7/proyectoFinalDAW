@@ -1,0 +1,55 @@
+@import '../utils/variables.scss';
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: $white;
+
+  .MuiPagination-root {
+    display: flex;
+    justify-content: center;
+
+    .MuiPaginationItem-root {
+      color: $blue;
+      border: 1px solid $grey;
+      background-color: $white;
+
+      &:hover {
+        background-color: $yellow;
+        color: $black;
+      }
+
+      &.Mui-selected {
+        background-color: $blue;
+        color: $white;
+        border-color: $blue;
+      }
+
+      &.MuiPaginationItem-ellipsis {
+        color: $grey;
+      }
+    }
+  }
+
+  // Responsive behavior
+  @media screen and (max-width: 768px) {
+    .MuiPaginationItem-root {
+      font-size: 0.8rem;
+      padding: 4px 8px; 
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .MuiPagination-root {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .MuiPaginationItem-root {
+      font-size: 0.7rem;
+      padding: 3px 6px;
+    }
+  }
+}

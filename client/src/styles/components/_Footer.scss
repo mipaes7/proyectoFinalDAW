@@ -1,0 +1,83 @@
+@import '../utils/variables.scss';
+
+.footer {
+  background-color: $blue;
+  color: $white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-top: auto;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 1rem;
+
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+
+      h4 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: $yellow;
+      }
+
+      p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: $grey;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin: 0.3rem 0;
+
+          a {
+            color: $white;
+            text-decoration: none;
+            font-size: 0.9rem;
+
+            &:hover {
+              color: $yellow;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+
+      a {
+        color: $white;
+        font-size: 1rem;
+
+        &:hover {
+          color: $yellow;
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+    color: $grey;
+    border-top: 1px solid $grey;
+    padding-top: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
